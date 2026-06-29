@@ -10,14 +10,10 @@ import {
 } from 'react-native';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
-import FaceRecognitionScreen from './FaceRecognitionScreen';
-
 const HomeScreen: React.FC = () => {
   const { user, logout } = useAuth();
   const [pontos, setPontos] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showFaceRecognition, setShowFaceRecognition] = useState(false);
-  const [tipoPontoSelecionado, setTipoPontoSelecionado] = useState('');
   const [baterPontoLoading, setBaterPontoLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +24,7 @@ const HomeScreen: React.FC = () => {
     setLoading(true);
     try {
       const response = await api.get('/mobile/pontos-hoje');
-      setPontos(response.data || []);
+      setPontos(Array.isArray(response.data) ? response.data : response.data?.registros || []);
     } catch (error) {
       console.error('Erro ao carregar pontos:', error);
     } finally {
@@ -77,7 +73,7 @@ const HomeScreen: React.FC = () => {
     return colors[tipo] || '#4f46e5';
   };
 
-  const iniciarBaterPonto = () => {
+  const iniciarBaterPonto = async () => {
     if (!podeBaterPonto()) return;
 
     const tipo = getProximoTipo();
@@ -86,22 +82,15 @@ const HomeScreen: React.FC = () => {
       return;
     }
 
-    setTipoPontoSelecionado(tipo);
-    setShowFaceRecognition(true);
-  };
-
-  const handleFaceSuccess = async (faceData: any) => {
-    setShowFaceRecognition(false);
     setBaterPontoLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append('tipo', tipoPontoSelecionado);
-      formData.append('foto', faceData.photo);
-      
+      formData.append('tipo', tipo);
+
       // Tentar obter localização
       try {
-        const { Location } = await import('expo-location');
+      const { Location } = await import('expo-location');
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {
           const location = await Location.getCurrentPositionAsync({});
@@ -118,7 +107,7 @@ const HomeScreen: React.FC = () => {
         },
       });
 
-      Alert.alert('Sucesso', `${getTipoLabel(tipoPontoSelecionado)} registrada com sucesso!`);
+      Alert.alert('Sucesso', `${getTipoLabel(tipo)} registrada com sucesso!`);
       carregarPontos();
     } catch (error: any) {
       Alert.alert('Erro', error.response?.data?.error || 'Erro ao registrar ponto');
@@ -126,22 +115,6 @@ const HomeScreen: React.FC = () => {
       setBaterPontoLoading(false);
     }
   };
-
-  const handleFaceCancel = () => {
-    setShowFaceRecognition(false);
-    setTipoPontoSelecionado('');
-  };
-
-  // Se estiver na tela de reconhecimento facial
-  if (showFaceRecognition) {
-    return (
-      <FaceRecognitionScreen
-        onSuccess={handleFaceSuccess}
-        onCancel={handleFaceCancel}
-        tipoPonto={tipoPontoSelecionado}
-      />
-    );
-  }
 
   const proximoTipo = getProximoTipo();
 

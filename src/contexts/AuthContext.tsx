@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 import api from '../services/api';
 
 interface User {
@@ -39,6 +41,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (storedUser && storedToken) {
         setUser(JSON.parse(storedUser));
         api.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      const sincronizado = await AsyncStorage.getItem('push_token_sincronizado');
+      const pushToken = await AsyncStorage.getItem('push_token');
+      const usuarioLogado = JSON.parse(storedUser);
+      if (sincronizado === 'false' && pushToken) {
+        api.post('/mobile/push-token', { funcionario_id: usuarioLogado.id, push_token: pushToken })
+          .then(() => AsyncStorage.setItem('push_token_sincronizado', 'true'))
+          .catch(err => console.log('Retentativa silenciosa falhou, tentará na próxima', err));
+      } else {
+        await registrarPushToken(usuarioLogado);
+      }
       }
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
@@ -57,8 +69,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       setUser(funcionario);
+      await registrarPushToken(funcionario);
     } catch (error: any) {
       throw new Error(error.response?.data?.error || 'Erro ao fazer login');
+    }
+  };
+
+  const registrarPushToken = async (funcionario: User) => {
+    try {
+      const permissions = await Notifications.getPermissionsAsync();
+      let status = permissions.status;
+      if (status !== 'granted') {
+        const requested = await Notifications.requestPermissionsAsync();
+        status = requested.status;
+      }
+      if (status !== 'granted') return;
+
+      const projectId = Constants.expoConfig?.extra?.eas?.projectId || Constants.easConfig?.projectId;
+      const token = await Notifications.getExpoPushTokenAsync(projectId ? { projectId } : undefined);
+      if (!token?.data) return;
+    await AsyncStorage.setItem('push_token', token.data);
+    await AsyncStorage.setItem('push_token_sincronizado', 'true');
+
+      console.log('Expo push token:', token.data);
+      await api.post('/mobile/push-token', {
+        funcionario_id: funcionario.id,
+        push_token: token.data,
+      });
+      await AsyncStorage.setItem('push_token', token.data);
+    } catch (error) {
+    console.warn('Falha ao registrar token na API. Será retentado.', error);
+    await AsyncStorage.setItem('push_token_sincronizado', 'false');
     }
   };
 
