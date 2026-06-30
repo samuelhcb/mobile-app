@@ -243,6 +243,7 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#f8fafc",/g
     shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2,
     flex: 1,
     backgroundColor: '#f9fafb',
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
   },
   warningText: {
     color: '#a16207',
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     lineHeight: 20,
   },
   pontoButton: {
@@ -306,7 +307,7 @@ const styles = StyleSheet.create({
   },
   pontoButtonSubtext: {
     color: 'rgba(255,255,255,0.8)',
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     marginTop: 4,
   },
   completedBox: {
@@ -327,7 +328,7 @@ const styles = StyleSheet.create({
   },
   completedSubtext: {
     color: '#047857',
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     marginTop: 4,
   },
   section: {
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 22, fontWeight: "700", color: "#1e293b",
     fontWeight: 'bold',
     color: '#111827',
     marginBottom: 16,
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   emptySubtext: {
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     color: '#9ca3af',
     marginTop: 4,
   },
@@ -392,7 +393,7 @@ const styles = StyleSheet.create({
     color: '#111827',
   },
   pontoHora: {
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     color: '#6b7280',
     marginTop: 2,
   },
@@ -423,11 +424,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f3f4f6',
   },
   infoLabel: {
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     color: '#6b7280',
   },
   infoValue: {
-    fontSize: 14,
+    fontSize: 13, color: "#64748b", letterSpacing: 0.5,
     fontWeight: '600',
   },
   infoEnabled: {
