@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
   },
   title: { marginTop: 6, fontSize: 28, fontWeight: '800', color: '#fff' },
-  subtitle: { marginTop: 6, fontSize: 14, color: '#e0e7ff', lineHeight: 20 },
+  subtitle: { marginTop: 6, fontSize: 16, color: '#e0e7ff', lineHeight: 20 },
   summaryGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e2e8f0',
   },
-  summaryIcon: { fontSize: 20, marginBottom: 8 },
+  summaryIcon: { fontSize: 20, marginBottom: 12 },
   summaryLabel: { fontSize: 12, color: '#64748b', fontWeight: '700' },
   summaryValue: { marginTop: 8, fontSize: 18, fontWeight: '800', color: '#0f172a' },
   section: { paddingHorizontal: 20, marginTop: 14 },
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
   },
   emptyText: { color: '#64748b', fontSize: 13 },
   card: {
+    shadowColor: "#000", shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.04, shadowRadius: 10, elevation: 3, borderLeftWidth: 4, borderLeftColor: "#2563eb",
     marginBottom: 12,
     backgroundColor: '#fff',
     borderRadius: 18,
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
   tipoWrap: { flexDirection: 'row', alignItems: 'center' },
   tipoIcon: { fontSize: 18, marginRight: 10 },
   tipo: { fontSize: 15, fontWeight: '800', color: '#0f172a' },
-  hora: { fontSize: 14, fontWeight: '800', color: '#4f46e5' },
+  hora: { fontSize: 16, fontWeight: '800', color: '#4f46e5' },
   meta: { marginTop: 6, fontSize: 12, color: '#64748b' },
 });
 

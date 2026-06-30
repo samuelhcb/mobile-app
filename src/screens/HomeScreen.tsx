@@ -243,6 +243,7 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
+    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2,
     flex: 1,
     backgroundColor: '#f9fafb',
   },
@@ -330,7 +331,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   section: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f8fafc',
     margin: 16,
     padding: 20,
     borderRadius: 16,
@@ -357,7 +358,7 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     color: '#6b7280',
-    fontWeight: '500',
+    fontWeight: '700',
   },
   emptySubtext: {
     fontSize: 14,
@@ -402,7 +403,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   infoSection: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f8fafc',
     margin: 16,
     marginTop: 0,
     padding: 20,
