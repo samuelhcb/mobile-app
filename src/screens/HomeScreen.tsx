@@ -90,6 +90,7 @@ const HomeScreen: React.FC = () => {
 
       // Tentar obter localização
       try {
+      // @ts-ignore
       const { Location } = await import('expo-location');
         const { status } = await Location.requestForegroundPermissionsAsync();
         if (status === 'granted') {

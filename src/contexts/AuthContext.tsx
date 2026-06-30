@@ -11,6 +11,7 @@ interface User {
   perfil: string;
   empresa_id: number;
   permite_mobile: boolean;
+  empresa_nome?: string;
 }
 
 interface AuthContextData {
