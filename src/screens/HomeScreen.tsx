@@ -243,8 +243,7 @@ const HomeScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#f8fafc",/g
-    shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 8, elevation: 2,
+    backgroundColor: "#ffffff",
     flex: 1,
     backgroundColor: '#f9fafb',
   },
